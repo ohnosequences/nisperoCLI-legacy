@@ -1,0 +1,3 @@
+export PATH=$PATH:$HOME/apps/jdk/bin
+export AWS_CREDENTIAL_FILE=/opt/init/aws_credentials
+./src/main/resources/tools/sbt/sbt "run $*"

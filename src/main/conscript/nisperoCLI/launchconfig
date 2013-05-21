@@ -1,7 +1,7 @@
 [app]
   version: 0.2.4-SNAPSHOT
   org: ohnosequences
-  name: nisperoCLI
+  name: nisperocli
   class: ohnosequences.nispero.nisperoCLI
 [scala]
   version: 2.10.0

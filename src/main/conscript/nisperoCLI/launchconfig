@@ -10,3 +10,4 @@
   sonatype-oss-releases
   maven-central
   era7-releases: http://releases.era7.com.s3.amazonaws.com/
+  era7-snapshots: http://snapshots.era7.com.s3.amazonaws.com/

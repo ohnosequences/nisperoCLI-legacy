@@ -39,7 +39,7 @@ object nisperoCLI {
         opt("t", "tasks", "file with tasks description") { 
           (v: String, c: nisperoArgs) => c.copy(tasks = v)
         },
-        arg("<file>|<autoScaligGroup>", "nispero config or auto scaling group name") {
+        argOpt("<file>|<autoScaligGroup>", "nispero config or auto scaling group name") {
           (v: String, c: nisperoArgs) => c.copy(config = v)
         }
       )
@@ -47,7 +47,7 @@ object nisperoCLI {
 
     println("-------------------------------")
     val result = parser.parse(args, nisperoArgs()) map { nisperoArgs =>      
-      println(nisperoArgs)
+      //println(nisperoArgs)
 
       getAWSClients(nisperoArgs.config) match {
         case Some(awsClients) => handleArguments(nisperoArgs, awsClients)
@@ -139,6 +139,7 @@ object nisperoCLI {
   }
 
   def handleArguments(args: nisperoArgs, awsClients: AWSClients): Int = {
+    //println("handleArguments")
     import awsClients._
     args.command match {
       case "deploy" => {
@@ -160,7 +161,6 @@ object nisperoCLI {
       }
 
       case "undeploy" => {
-
           val configFile = new File(args.config)
           val configBody: Option[String] = if (configFile.exists()) {
             Some(scala.io.Source.fromFile(configFile).mkString)
@@ -189,7 +189,6 @@ object nisperoCLI {
               1
             }
           }
-
       }
 
       case "list" => {

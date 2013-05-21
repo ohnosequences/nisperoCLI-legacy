@@ -1,0 +1,12 @@
+[app]
+  version: 0.2.4-SNAPSHOT
+  org: ohnosequences
+  name: nisperoCLI
+  class: ohnosequences.nispero.nisperoCLI
+[scala]
+  version: 2.10.0
+[repositories]
+  local
+  sonatype-oss-releases
+  maven-central
+  era7-releases: http://releases.era7.com.s3.amazonaws.com/

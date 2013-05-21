@@ -37,4 +37,10 @@ libraryDependencies += "ohnosequences" % "nisperobase_2.10" % "0.2.3"
 
 libraryDependencies += "com.novocode" % "junit-interface" % "0.10-M1" % "test"
 
+libraryDependencies += "com.github.scopt" %% "scopt" % "2.1.0"
+
+libraryDependencies += "org.scala-sbt" % "launcher-interface" % "0.12.3" % "provided"
+
+resolvers <+= sbtResolver
+
 

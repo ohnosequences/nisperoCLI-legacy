@@ -8,7 +8,7 @@ import org.clapper.avsl.Logger
 import ohnosequences.nispero.tasks.Task
 
 
-case class Exit(val code: Int) extends xsbti.Exit
+case class Exit(code: Int) extends xsbti.Exit
 
 case class nisperoArgs(
   command: String = "",
@@ -50,7 +50,7 @@ object nisperoCLI {
       //println(nisperoArgs)
 
       getAWSClients(nisperoArgs.config) match {
-        case Some(awsClients) => handleArguments(nisperoArgs, awsClients)
+        case Some(awsClients) => handleArguments(nisperoArgs, awsClients, parser)
         case None => println("Couldn't get AWS Credentials"); 1
       }
 
@@ -138,25 +138,20 @@ object nisperoCLI {
     }
   }
 
-  def handleArguments(args: nisperoArgs, awsClients: AWSClients): Int = {
+  def handleArguments(args: nisperoArgs, awsClients: AWSClients, parser: scopt.immutable.OptionParser[nisperoArgs]): Int = {
     //println("handleArguments")
     import awsClients._
     args.command match {
-      case "deploy" => {
-        if (args.config.isEmpty()) {
-          println("usage: nispero deploy <nispero.config>")
-          1
-        } else {
+      case "deploy" if (!args.config.isEmpty()) => {
           val deploy = Deploy.fromFile(args.config, awsClients)
           val generatedConfig = deploy.deploy()
           val generatedConfigFile = new File(args.config + ".generated")
           println("writing generated config to " + generatedConfigFile.getPath)
           Utils.writeStringToFile(JSON.toJson(generatedConfig), generatedConfigFile)
           0
-        }
       }
       case "undeploy" if(args.config.isEmpty()) => {
-        handleArguments(args.copy(command = "list"), awsClients)
+        handleArguments(args.copy(command = "list"), awsClients, parser)
         0
       }
 
@@ -201,7 +196,7 @@ object nisperoCLI {
         0
       }
 
-      case "managerLog" => {
+      case "managerLog" if(!args.config.isEmpty) => {
         val json = scala.io.Source.fromFile(args.config).mkString
         val rawConfig = JSON.parse[Config](json)
         s3.readObject(ObjectAddress(rawConfig.bucket, "manager.log")) match {
@@ -210,11 +205,9 @@ object nisperoCLI {
         }
       }
 
-      case "check" => {
-        val tasksString = scala.io.Source.fromFile(args.config).mkString
-        val tasks = JSON.parse[List[Task]](tasksString)
+      case "check" if(!args.config.isEmpty) => {
 
-        val json = scala.io.Source.fromFile(new File(args.tasks)).mkString
+        val json = scala.io.Source.fromFile(new File(args.config)).mkString
         val rawConfig = JSON.parse[Config](json)
 
         val currentInstance = ec2.getCurrentInstance
@@ -247,16 +240,23 @@ object nisperoCLI {
           }
         }
 
-        tasks.foreach { task =>
-          println("trying solving task with id: " + task.id)
-          ScriptExecutor.solve(awsClients.s3, task)
+        if(new File(args.tasks).exists()) {
+          println("testing tasks form file " + args.tasks)
+          val tasksString = scala.io.Source.fromFile(args.tasks).mkString
+          val tasks = JSON.parse[List[Task]](tasksString)
+          tasks.foreach { task =>
+            println("trying solving task with id: " + task.id)
+            ScriptExecutor.solve(awsClients.s3, task)
+          }
+          0
+        } else {
+          println("couldn't find " + args.tasks)
+          1
         }
-        0
       }
 
       case _ => {
-        println("unknown command")
-        println("known commands: check, deploy, undeploy, list, managerLog")
+        parser.showUsage
         1
       }
 

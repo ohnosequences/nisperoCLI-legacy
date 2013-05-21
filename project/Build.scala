@@ -28,6 +28,18 @@ object nisperoCLIBuild extends Build {
       )
   )
 
+  def recursiveListFiles(file: File): List[File] = {
+    val these = file.listFiles.toList
+    these.filter(_.isDirectory).flatMap(recursiveListFiles) ++ these
+  }
+
+  def renameFile(file: File, s1: String, s2: String) {
+    file.renameTo(new File(
+      file.getParentFile(), 
+      file.getName().replace(s1, s2))
+    )
+  }
+
   // sample release step
   val uploadArtifacts = ReleaseStep(action = st => {
     // extract the build state
@@ -41,6 +53,16 @@ object nisperoCLIBuild extends Build {
       st.log.info("a snapshot release")
       st.log.info("artifacts will be uploaded to the snapshots repo")
 
+      // recursiveListFiles(new File("artifacts/snapshots.era7.com/")).foreach(
+      //   renameFile(_, "nisperocli_2.10", "nisperocli_2.10.0")
+      // )
+
+      // Seq(
+      //   "mv",
+      //   "artifacts/snapshots.era7.com/ohnosequences/nisperocli_2.10",
+      //   "artifacts/snapshots.era7.com/ohnosequences/nisperocli_2.10.0"
+      // ).!!
+
       Seq (
             "s3cmd", "sync", "-r", "--no-delete-removed", "--disable-multipart",
             "artifacts/snapshots.era7.com/",
@@ -51,6 +73,16 @@ object nisperoCLIBuild extends Build {
 
       st.log.info("a normal release")
       st.log.info("artifacts will be uploaded to the releases repo")
+
+      // recursiveListFiles(new File("artifacts/releases.era7.com/")).foreach(
+      //   renameFile(_, "nisperocli_2.10", "nisperocli_2.10.0")
+      // )
+
+      // Seq(
+      //   "mv",
+      //   "artifacts/releases.era7.com/ohnosequences/nisperocli_2.10",
+      //   "artifacts/releases.era7.com/ohnosequences/nisperocli_2.10.0"
+      // ).!!
       
       Seq (
           "s3cmd", "sync", "-r", "--no-delete-removed", "--disable-multipart",

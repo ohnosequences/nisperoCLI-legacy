@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-Usage: nisperoCLI [options] <command> <file>|<autoScaligGroup>
+Usage: nispero [options] <command> <file>|<autoScaligGroup>
 
   -t <value> | --tasks <value>
         file with tasks description
@@ -30,7 +30,7 @@ nisperoCLI deploy nispero.config
 ### list
 This command print list of all running instances of *nispero* with their auto scaling groups. Example
 ```
-nisperoCLI list
+nispero list
 ```
 
 ### undeploy
@@ -39,7 +39,7 @@ This command terminate instances of nispero instance and terminate all resources
 
 This command take one argument — name of corresponded auto scaling group or configuration that generated during deploying ("nispero.config.generated")
 ```
-nisperoCLI undeploy nisperoWorkersGroup7
+nispero undeploy nisperoWorkersGroup7
 ```
 
 ### check
@@ -59,7 +59,7 @@ This command takes two arguments:
 
 Example of usage:
 ```
-nisperoCLI check -t tasks nispero.config
+nispero check -t tasks nispero.config
 ```
 
 > You should run this program with sudo if you using *scriptExecutor* with scripts that assume that root right privileges. 

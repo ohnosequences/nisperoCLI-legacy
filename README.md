@@ -9,6 +9,8 @@ Usage: nisperoCLI [options] <command> <file>|<autoScaligGroup>
 
   -t <value> | --tasks <value>
         file with tasks description
+  -s <value> | --sources <value>
+        path to nispero sources
   <command>
         nisperoCLI command: deploy, undeploy, list, managerLog, check
   <file>|<autoScaligGroup>
@@ -31,7 +33,7 @@ This command print list of all running instances of *nispero* with their auto sc
 nisperoCLI list
 ```
 
-## undeploy
+### undeploy
 
 This command terminate instances of nispero instance and terminate all resources created by it (you can setup behavior termination using "deletion policy" section in *nispero* configuration). 
 
@@ -40,7 +42,7 @@ This command take one argument — name of corresponded auto scaling group or co
 nisperoCLI undeploy nisperoWorkersGroup7
 ```
 
-## check
+### check
 
 *nispero* has some requirements for *workers* and *manager* instances AMIs.
 First of all it should be linux-based AMI (currently tested only with Amazon Linux). Next the following packages should be installed:
@@ -62,7 +64,7 @@ nisperoCLI check -t tasks nispero.config
 
 > You should run this program with sudo if you using *scriptExecutor* with scripts that assume that root right privileges. 
 
-## managerLog
+### managerLog
 Troubleshooting feature. This command print log of manager application. Example of usage:
 ```
 nisperoCLI managerLog nispero.config

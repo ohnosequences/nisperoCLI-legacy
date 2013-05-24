@@ -13,7 +13,8 @@ case class Exit(code: Int) extends xsbti.Exit
 case class nisperoArgs(
   command: String = "",
   config: String = "",
-  tasks: String = ""
+  tasks: String = "",
+  sources: String = "."
 )
 
 class nisperoCLI extends xsbti.AppMain {
@@ -30,7 +31,7 @@ object nisperoCLI {
 
   def run(args: Array[String]): Int = {
 
-    val parser = new scopt.immutable.OptionParser[nisperoArgs]("nisperoCLI", "0.2.4-SNAPSHOT") {
+    val parser = new scopt.immutable.OptionParser[nisperoArgs]("nispero", "0.2.5") {
 
       def options = Seq(
         arg("<command>", "nispero command") {
@@ -38,6 +39,9 @@ object nisperoCLI {
         },
         opt("t", "tasks", "file with tasks description") { 
           (v: String, c: nisperoArgs) => c.copy(tasks = v)
+        },
+        opt("s", "sources", "sources path to nispero sources") { 
+          (v: String, c: nisperoArgs) => c.copy(sources = v)
         },
         argOpt("<file>|<autoScaligGroup>", "nispero config or auto scaling group name") {
           (v: String, c: nisperoArgs) => c.copy(config = v)
@@ -143,7 +147,7 @@ object nisperoCLI {
     import awsClients._
     args.command match {
       case "deploy" if (!args.config.isEmpty()) => {
-          val deploy = Deploy.fromFile(args.config, awsClients)
+          val deploy = Deploy.fromFile(args.config, awsClients, args.sources)
           val generatedConfig = deploy.deploy()
           val generatedConfigFile = new File(args.config + ".generated")
           println("writing generated config to " + generatedConfigFile.getPath)

@@ -31,7 +31,7 @@ object nisperoCLI {
 
   def run(args: Array[String]): Int = {
 
-    val parser = new scopt.immutable.OptionParser[nisperoArgs]("nispero", "0.2.5") {
+    val parser = new scopt.immutable.OptionParser[nisperoArgs]("nispero", "0.2.6") {
 
       def options = Seq(
         arg("<command>", "nispero command: deploy, undeploy, list, managerLog, check") {
@@ -203,7 +203,7 @@ object nisperoCLI {
       case "managerLog" if(!args.config.isEmpty) => {
         val json = scala.io.Source.fromFile(args.config).mkString
         val rawConfig = JSON.parse[Config](json)
-        s3.readObject(ObjectAddress(rawConfig.bucket, "manager.log")) match {
+        s3.readObject(ObjectAddress(rawConfig.resources.bucket, "manager.log")) match {
           case Some(log) => println(log); 0
           case None =>  println("haven't generated yet"); 1
         }
@@ -216,7 +216,7 @@ object nisperoCLI {
 
         val currentInstance = ec2.getCurrentInstance
 
-        val workersAMI = rawConfig.workersGroup.launchingConfiguration.instanceSpecs.amiId
+        val workersAMI = rawConfig.resources.workersGroup.launchingConfiguration.instanceSpecs.amiId
 
         if(currentInstance.isEmpty || currentInstance.isDefined && !currentInstance.get.getAMI().equals(workersAMI)) {
           println("warning you checking task solver on AMI: " + currentInstance.map(_.getAMI()) +

@@ -7,7 +7,7 @@ name := "nisperoCLI"
 
 organization := "ohnosequences"
 
-version := "0.2.5"
+version := "0.2.6"
 
 scalaVersion := "2.10.0"
 
@@ -34,7 +34,7 @@ libraryDependencies += "ohnosequences" % "aws-scala-tools_2.10" % "0.2.3"
 
 libraryDependencies += "ohnosequences" % "scriptexecutor_2.10" % "0.2.5"
 
-libraryDependencies += "ohnosequences" % "nisperobase_2.10" % "0.2.5"
+libraryDependencies += "ohnosequences" % "nisperobase_2.10" % "0.2.6"
 
 libraryDependencies += "com.novocode" % "junit-interface" % "0.10-M1" % "test"
 

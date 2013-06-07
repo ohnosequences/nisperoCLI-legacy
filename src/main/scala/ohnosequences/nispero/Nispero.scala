@@ -34,7 +34,7 @@ object nisperoCLI {
     val parser = new scopt.immutable.OptionParser[nisperoArgs]("nispero", "0.2.5") {
 
       def options = Seq(
-        arg("<command>", "nispero command") {
+        arg("<command>", "nispero command: deploy, undeploy, list, managerLog, check") {
           (v: String, c: nisperoArgs) => c.copy(command = v)
         },
         opt("t", "tasks", "file with tasks description") { 

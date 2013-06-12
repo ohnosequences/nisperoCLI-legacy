@@ -40,6 +40,7 @@ This command terminate instances of nispero instance and terminate all resources
 This command take one argument — name of corresponded auto scaling group or configuration that generated during deploying ("nispero.config.generated")
 ```
 nispero undeploy nisperoWorkersGroup7
+nispero undeploy nispero.config.generated
 ```
 
 ### check

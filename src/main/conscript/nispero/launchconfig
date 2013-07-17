@@ -1,5 +1,5 @@
 [app]
-  version: 0.2.6
+  version: 0.2.7
   org: ohnosequences
   name: nisperocli_2.10
   class: ohnosequences.nispero.nisperoCLI

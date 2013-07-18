@@ -30,11 +30,9 @@ resolvers ++= Seq (
                     "Era7 Snapshots"      at "http://snapshots.era7.com.s3.amazonaws.com"
                   )
 
-libraryDependencies += "ohnosequences" % "aws-scala-tools_2.10" % "0.2.4"
-
 libraryDependencies += "ohnosequences" % "scriptexecutor_2.10" % "0.2.7"
 
-libraryDependencies += "ohnosequences" % "nisperobase_2.10" % "0.2.6"
+libraryDependencies += "ohnosequences" % "nisperobase_2.10" % "0.2.7"
 
 libraryDependencies += "com.novocode" % "junit-interface" % "0.10-M1" % "test"
 

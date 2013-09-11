@@ -1,11 +1,11 @@
 [app]
-  version: 0.2.7
+  version: 0.1.2
   org: ohnosequences
-  name: nisperocli_2.10
-  class: ohnosequences.nispero.nisperoCLI
+  name: nispero-abstract_2.10
+  class: ohnosequences.nispero.cli
   cross-versioned: false
 [scala]
-  version: 2.10.0
+  version: 2.10.2
 [repositories]
   local
   sonatype-oss-releases

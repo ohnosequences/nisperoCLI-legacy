@@ -2,7 +2,7 @@
   version: 0.1.2
   org: ohnosequences
   name: nispero-abstract_2.10
-  class: ohnosequences.nispero.cli
+  class: ohnosequences.nispero.cli.NisperoCLI
   cross-versioned: false
 [scala]
   version: 2.10.2

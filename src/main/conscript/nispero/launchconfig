@@ -8,7 +8,7 @@
   version: 2.10.2
 [repositories]
   local
-  sonatype-oss-releases
+  sonatype-oss-releases: https://oss.sonatype.org/content/repositories/releases/
   maven-central
   era7-releases: http://releases.era7.com.s3.amazonaws.com/
   era7-snapshots: http://snapshots.era7.com.s3.amazonaws.com/

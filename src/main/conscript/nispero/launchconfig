@@ -1,5 +1,5 @@
 [app]
-  version: 1.2.0
+  version: 1.3.0-SNAPSHOT
   org: ohnosequences
   name: nispero-abstract_2.10
   class: ohnosequences.nispero.cli.NisperoCLI
